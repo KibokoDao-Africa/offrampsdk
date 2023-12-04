@@ -121,13 +121,13 @@ class ConvertToCrypto(APIView):
 
         print(headers)
         payload = {    
-                    "BusinessShortCode": Business_short_code,    
+                    "BusinessShortCode": '174379',    
                     "Password": password,    
                     "Timestamp": timestamp,    
                     "TransactionType": "CustomerPayBillOnline",    
-                    "Amount": 10,    
+                    "Amount": amount,    
                     "PartyA":mobile_number,    
-                    "PartyB":174379,    
+                    "PartyB":'174379',    
                     "PhoneNumber":mobile_number,    
                     "CallBackURL": "https://smartnyumba.com/apps/user/api/v1/services/mpesa-callback/",    
                     "AccountReference":"Test",    
@@ -147,8 +147,9 @@ class ConvertToCrypto(APIView):
                 'message': 'Payment initiated'
             }, status=status.HTTP_200_OK)
         else:
+            print(response.text)
             return Response({
                 'status': False,
-                'message': 'Check Keys!'
+                'message': response.text
             }, status=status.HTTP_400_BAD_REQUEST)
 
