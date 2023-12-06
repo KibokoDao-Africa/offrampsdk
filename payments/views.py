@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from utils.api_auth import get_access_token
 from django.conf import settings
 from .serializers import MobileSerializer
-import requests,json, uuid, base64,datetime, logging
+import requests,json, uuid, base64,datetime, logging, random, string
 
 # Create your views here.
 class ConvertToFiat(APIView):
@@ -41,15 +41,15 @@ class ConvertToFiat(APIView):
         # message = "You have received kES"+amount
 
         payload = {    
-            "OriginatorConversationID": str(uuid.uuid4()),
+            "OriginatorConversationID": str(''.join(random.choices(string.ascii_letters, k=64))),
             "InitiatorName": settings.INITIATOR_NAME,
             "SecurityCredential":str(credential),
             "CommandID":settings.COMMANDID,
             "Amount":amount,
-            "PartyA":"6579327",
+            "PartyA":"600990",
             "PartyB":mobile_number,
             "Remarks":"here are my remarks",
-            "QueueTimeOutURL":settings.SAFARICOM_CALLBACK_URL,
+            "QueueTimeOutURL":settings.SAFARICOM_TIMEOUT_URL,
             "ResultURL":settings.SAFARICOM_CALLBACK_URL,
             "Occassion":"Christmas"
         }
@@ -156,4 +156,9 @@ class CallBackUrl(APIView):
     def post(self, request):
         print(request.data)
         logging.info(request.data)
+        return Response({"data":request.data})
+    
+class TimeOutUrl(APIView):
+    def post(self, request):
+        print(request.data)
         return Response({"data":request.data})
