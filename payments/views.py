@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from utils.api_auth import get_access_token
 from django.conf import settings
 from .serializers import MobileSerializer
-import requests,json, uuid, base64,datetime
+import requests,json, uuid, base64,datetime, logging
 
 # Create your views here.
 class ConvertToFiat(APIView):
@@ -49,8 +49,8 @@ class ConvertToFiat(APIView):
             "PartyA":"6579327",
             "PartyB":mobile_number,
             "Remarks":"here are my remarks",
-            "QueueTimeOutURL":"https://smartnyumba.com",
-            "ResultURL":"https://smartnyumba.com",
+            "QueueTimeOutURL":settings.SAFARICOM_CALLBACK_URL,
+            "ResultURL":settings.SAFARICOM_CALLBACK_URL,
             "Occassion":"Christmas"
         }
         try:
@@ -129,7 +129,7 @@ class ConvertToCrypto(APIView):
                     "PartyA":mobile_number,    
                     "PartyB":'174379',    
                     "PhoneNumber":mobile_number,    
-                    "CallBackURL": "https://smartnyumba.com/apps/user/api/v1/services/mpesa-callback/",    
+                    "CallBackURL": settings.SAFARICOM_CALLBACK_URL,    
                     "AccountReference":"Test",    
                     "TransactionDesc":"Test"
                 }
@@ -139,7 +139,6 @@ class ConvertToCrypto(APIView):
             json_response = json.loads(response.text)
             # Service.MerchantRequestID = json_response['MerchantRequestID']
             # Service.CheckoutRequestID = json_response['CheckoutRequestID']
-
             # Service.save()
 
             return Response({
@@ -153,3 +152,8 @@ class ConvertToCrypto(APIView):
                 'message': response.text
             }, status=status.HTTP_400_BAD_REQUEST)
 
+class CallBackUrl(APIView):
+    def post(self, request):
+        print(request.data)
+        logging.info(request.data)
+        return Response({"data":request.data})
