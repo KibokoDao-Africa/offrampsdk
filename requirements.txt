@@ -43,4 +43,5 @@ troposphere==4.5.2
 typing_extensions==4.8.0
 urllib3==1.26.18
 Werkzeug==3.0.1
+whitenoise==6.6.0
 zappa==0.58.0
