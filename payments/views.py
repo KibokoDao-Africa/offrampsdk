@@ -46,7 +46,7 @@ class ConvertToFiat(APIView):
             "CommandID":settings.COMMANDID,
             "Amount":amount,
             "PartyA":"600980",
-            "PartyB":"254708374149",
+            "PartyB":mobile_number,
             "Remarks":"here are my remarks",
             "QueueTimeOutURL":settings.SAFARICOM_TIMEOUT_URL,
             "ResultURL":settings.SAFARICOM_CALLBACK_URL,
