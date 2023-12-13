@@ -119,7 +119,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'GMT'
 
 USE_I18N = True
 
@@ -129,7 +129,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATTICFILES_DIR = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -152,6 +156,7 @@ SAFARICOM_PASS_KEY=config('SAFARICOM_PASS_KEY')
 BUSINESS_SHORT_CODE=config('BUSINESS_SHORT_CODE')
 SAFARICOM_CALLBACK_URL = config('SAFARICOM_CALLBACK_URL')
 SAFARICOM_TIMEOUT_URL = config('SAFARICOM_TIMEOUT_URL')
+SAFARICOM_SECURITY_CREDENTIAL_B2C = config('SAFARICOM_SECURITY_CREDENTIAL_B2C')
 # *************b2c credentials****************
 INITIATOR_NAME = config('INITIATOR_NAME')
 SECURITY_CREDENTIAL = config('SECURITY_CREDENTIAL')

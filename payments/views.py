@@ -28,8 +28,7 @@ class ConvertToFiat(APIView):
         certificate = str(settings.SANDBOX_CERTIFICATE)
         security = initiator_password + certificate
         message = security.encode('ascii')
-        credential = base64.b64encode(message)
-
+        credential = settings.SAFARICOM_SECURITY_CREDENTIAL_B2C
 
         # serializer.save()
 
@@ -46,8 +45,8 @@ class ConvertToFiat(APIView):
             "SecurityCredential":str(credential),
             "CommandID":settings.COMMANDID,
             "Amount":amount,
-            "PartyA":"600990",
-            "PartyB":mobile_number,
+            "PartyA":"600980",
+            "PartyB":"254708374149",
             "Remarks":"here are my remarks",
             "QueueTimeOutURL":settings.SAFARICOM_TIMEOUT_URL,
             "ResultURL":settings.SAFARICOM_CALLBACK_URL,
@@ -154,6 +153,7 @@ class ConvertToCrypto(APIView):
 
 class CallBackUrl(APIView):
     def post(self, request):
+        print('Call back started')
         print(request.data)
         logging.info(request.data)
         return Response({"data":request.data})

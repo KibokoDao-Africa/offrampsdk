@@ -1,0 +1,1 @@
+web: gunicorn crypto2fiat.wsgi --log-file -
