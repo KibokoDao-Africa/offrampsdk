@@ -100,7 +100,7 @@ class ConvertToCrypto(APIView):
 
         pass_key = settings.SAFARICOM_PASS_KEY
 
-        message = str(Business_short_code)+ pass_key + timestamp
+        message = str(Business_short_code)+str(pass_key)+str(timestamp)
         print("message",message)
         message_bytes = message.encode('ascii')
         base64_bytes = base64.b64encode(message_bytes)
