@@ -5,11 +5,25 @@ from rest_framework.response import Response
 from utils.api_auth import get_access_token
 from django.conf import settings
 from .serializers import MobileSerializer
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 import requests,json, uuid, base64,datetime, logging, random, string
+
+def encrypt_data(data, key, iv):
+    backend = default_backend()
+
+    cipher = Cipher(algorithms.AES(key), modes.CFB(iv), backend=backend)
+    encryptor = cipher.encryptor()
+
+    ciphertext = encryptor.update(data) + encryptor.finalize()
+
+    return ciphertext
 
 # Create your views here.
 class ConvertToFiat(APIView):
     serializer_class = MobileSerializer
+   
 
     def post(self, request):
         data = request.data
@@ -26,8 +40,11 @@ class ConvertToFiat(APIView):
         mobile_number = request.data.get('mobile_number')
         initiator_password = str(settings.INITIATOR_PASSWORD)
         certificate = str(settings.SANDBOX_CERTIFICATE)
-        security = initiator_password + certificate
+        security = initiator_password+certificate
         message = security.encode('ascii')
+        key = b"0123456789ABCDEF"  # 16-byte key for AES-128
+        iv = b"1234567890123456" 
+        openssl_encrypted_message = encrypt_data(message,key,iv)
         credential = settings.SAFARICOM_SECURITY_CREDENTIAL_B2C
 
         # serializer.save()
@@ -42,7 +59,7 @@ class ConvertToFiat(APIView):
         payload = {    
             "OriginatorConversationID": str(''.join(random.choices(string.ascii_letters, k=64))),
             "InitiatorName": settings.INITIATOR_NAME,
-            "SecurityCredential":str(credential),
+            "SecurityCredential":str(openssl_encrypted_message),
             "CommandID":settings.COMMANDID,
             "Amount":amount,
             "PartyA":"600980",
@@ -55,8 +72,7 @@ class ConvertToFiat(APIView):
         try:
             res = requests.post(settings.SAFARICOM_B2C_ENDPOINT,headers=headers,json=payload)
             print(res.text)
-            #if(res.status==200):
-                
+            #if(res.status==200):    
             json_response = json.loads(res.text)
             return Response({"safaricom":json_response})
         except Exception as e:
