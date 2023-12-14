@@ -155,16 +155,16 @@ class ConvertToCrypto(APIView):
             # Service.MerchantRequestID = json_response['MerchantRequestID']
             # Service.CheckoutRequestID = json_response['CheckoutRequestID']
             # Service.save()
-
             return Response({
                 'status': True,
-                'message': 'Payment initiated'
+                'message': json_response
             }, status=status.HTTP_200_OK)
         else:
+            json_response = json.loads(response.text)
             print(response.text)
             return Response({
                 'status': False,
-                'message': response.text
+                'message': json_response
             }, status=status.HTTP_400_BAD_REQUEST)
 
 class CallBackUrl(APIView):
