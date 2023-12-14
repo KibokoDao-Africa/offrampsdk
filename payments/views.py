@@ -180,10 +180,17 @@ class CallBackUrl(APIView):
     def post(self, request):
         print('Call back started')
         print(request.data)
-        logging.info(request.data)
-        return Response({"data":request.data})
+        data = request.data
+        json_response = data.json()
+        logger = logging.getLogger('django.server')
+        logger.info(request.data)
+        return Response({"data":json_response}, status=status.HTTP_200_OK)
     
 class TimeOutUrl(APIView):
     def post(self, request):
         print(request.data)
-        return Response({"data":request.data})
+        data = request.data
+        json_response = data.json()
+        logger = logging.getLogger('django.server')
+        logger.info(request.data)
+        return Response({"data":json_response})
