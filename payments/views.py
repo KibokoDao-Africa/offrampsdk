@@ -73,7 +73,7 @@ class ConvertToFiat(APIView):
             res = requests.post(settings.SAFARICOM_B2C_ENDPOINT,headers=headers,json=payload)
             print(res.text)
             #if(res.status==200):    
-            json_response = json.loads(res.text)
+            json_response = res.json()
             return Response({"safaricom":json_response})
         except Exception as e:
             return Response({"error":e})
@@ -151,7 +151,7 @@ class ConvertToCrypto(APIView):
         response = requests.post(endpoint, json=payload, headers=headers)
         print(response.text)
         if response.status_code == 200:
-            json_response = json.loads(response.text)
+            json_response = response.json()
             # Service.MerchantRequestID = json_response['MerchantRequestID']
             # Service.CheckoutRequestID = json_response['CheckoutRequestID']
             # Service.save()
@@ -160,7 +160,7 @@ class ConvertToCrypto(APIView):
                 'message': json_response
             }, status=status.HTTP_200_OK)
         else:
-            json_response = json.loads(response.text)
+            json_response = response.json()
             print(response.text)
             return Response({
                 'status': False,
