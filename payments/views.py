@@ -183,7 +183,7 @@ class CallBackUrl(APIView):
         data = request.data
         json_response = data.json()
         logger = logging.getLogger('django.server')
-        logger.info(request.data)
+        logger.info(json_response)
         return Response({"data":json_response}, status=status.HTTP_200_OK)
     
 class TimeOutUrl(APIView):
@@ -192,5 +192,5 @@ class TimeOutUrl(APIView):
         data = request.data
         json_response = data.json()
         logger = logging.getLogger('django.server')
-        logger.info(request.data)
+        logger.info(json_response)
         return Response({"data":json_response})
