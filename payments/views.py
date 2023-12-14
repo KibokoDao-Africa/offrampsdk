@@ -109,6 +109,11 @@ class ConvertToCrypto(APIView):
         access_token = get_access_token()
         endpoint = settings.SAFARICOM_STK_PUSH
         Business_short_code = settings.BUSINESS_SHORT_CODE
+        logger = logging.getLogger('django.server')
+        logger.info(settings.SAFARICOM_STK_PUSH)
+        logger.info(access_token)
+        print("after logging")
+        print(endpoint)
 
         timestamp = f"{datetime.datetime.now():%Y%m%d%H%M%S}"
 
@@ -148,6 +153,8 @@ class ConvertToCrypto(APIView):
                     "AccountReference":"Test",    
                     "TransactionDesc":"Test"
                 }
+        print(endpoint)
+        logging.info(endpoint)
         response = requests.post(endpoint, json=payload, headers=headers)
         print(response.text)
         if response.status_code == 200:
@@ -161,6 +168,8 @@ class ConvertToCrypto(APIView):
             }, status=status.HTTP_200_OK)
         else:
             json_response = response.json()
+            print(endpoint)
+            logging.info(endpoint)
             print(response.text)
             return Response({
                 'status': False,

@@ -15,9 +15,9 @@ def get_access_token():
         response = json.loads(res.text)
         access_token = response['access_token']
         return access_token
-    except KeyError:
-        return False
+    except KeyError as key:
+        return key
     except Exception as error:
         print('TOKEN ERROR:', str(error))
-        return False
+        return error
     
