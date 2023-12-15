@@ -87,13 +87,17 @@ WSGI_APPLICATION = 'crypto2fiat.wsgi.application'
 # import sys
 # sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'Muasya254;',
+        'HOST': 'localhost',
+        'PORT': '5432',
        
-#     }
-# }
+    }
+}
 
 
 # Password validation
