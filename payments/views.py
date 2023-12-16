@@ -198,7 +198,7 @@ class CallBackUrl(APIView):
        
         logger.info(response_code)
         print(response_code)
-        return Response({'data':serializedData})
+        return Response(json_response)
 
         # if response_code==0:
         #     successSerializer = succesfulTransactionsSerializer(data=data)
