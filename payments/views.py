@@ -193,6 +193,7 @@ class CallBackUrl(APIView):
         logger = logging.getLogger('django.server')
         logger.info(response_code)
         print(response_code)
+        return Response(json_response)
 
         # if response_code==0:
         #     successSerializer = succesfulTransactionsSerializer(data=data)
