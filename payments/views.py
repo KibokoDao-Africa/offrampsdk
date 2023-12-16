@@ -194,24 +194,24 @@ class CallBackUrl(APIView):
         logger.info(response_code)
         print(response_code)
 
-        if response_code==0:
-            successSerializer = succesfulTransactionsSerializer(data=data)
-            if successSerializer.is_valid():
-                successSerializer.save()
-                res ={"msg":"Successfully recorded transaction"}
-                return Response(res)
-            else:
-                res ={"msg":successSerializer.errors()}
-                return Response(res)
-        else:
-            cancelledTransactions = cancelledTransactionsSerializer(data=data)
-            if cancelledTransactions.is_valid():
-                cancelledTransactions.save()
-                res ={"msg":"transaction was cancelled by user"}
-                return Response(res)
-            else:
-                res ={"msg":cancelledTransactions.errors()}
-                return Response(res)
+        # if response_code==0:
+        #     successSerializer = succesfulTransactionsSerializer(data=data)
+        #     if successSerializer.is_valid():
+        #         successSerializer.save()
+        #         res ={"msg":"Successfully recorded transaction"}
+        #         return Response(res)
+        #     else:
+        #         res ={"msg":successSerializer.errors()}
+        #         return Response(res)
+        # else:
+        #     cancelledTransactions = cancelledTransactionsSerializer(data=data)
+        #     if cancelledTransactions.is_valid():
+        #         cancelledTransactions.save()
+        #         res ={"msg":"transaction was cancelled by user"}
+        #         return Response(res)
+        #     else:
+        #         res ={"msg":cancelledTransactions.errors()}
+        #         return Response(res)
      
         # return Response({"data":json_response}, status=status.HTTP_200_OK)
     
