@@ -190,7 +190,9 @@ class CallBackUrl(APIView):
         MpesaReceiptNumber = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["MpesaReceiptNumber"]
         transactionDate = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["TransactionDate"]
         phone = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["PhoneNumber"]
-       
+        logger = logging.getLogger('django.server')
+        logger.info(response_code)
+
         if response_code==0:
             successSerializer = succesfulTransactionsSerializer(data=data)
             if successSerializer.is_valid():
@@ -209,8 +211,7 @@ class CallBackUrl(APIView):
             else:
                 res ={"msg":cancelledTransactions.errors()}
                 return Response(res)
-        # logger = logging.getLogger('django.server')
-        # logger.info(json_response)
+     
         # return Response({"data":json_response}, status=status.HTTP_200_OK)
     
     
