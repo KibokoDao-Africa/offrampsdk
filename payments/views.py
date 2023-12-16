@@ -182,6 +182,8 @@ class CallBackUrl(APIView):
         print(request.data)
         data = request.data
         json_response = json.dumps(data)
+        cancelledTransactions = cancelledTransactionsSerializer(data=data, many=True)
+        serializedData = cancelledTransactions.data
         response_code = json_response["Body"]["stkCallback"]["ResultCode"]
         MerchantRequestID = json_response["Body"]["stkCallback"]["MerchantRequestID"]
         CheckoutRequestID = json_response["Body"]["stkCallback" ]["CheckoutRequestID"]
@@ -193,7 +195,7 @@ class CallBackUrl(APIView):
         logger = logging.getLogger('django.server')
         logger.info(response_code)
         print(response_code)
-        return Response(json_response)
+        return Response({'data':serializedData})
 
         # if response_code==0:
         #     successSerializer = succesfulTransactionsSerializer(data=data)
