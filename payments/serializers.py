@@ -14,7 +14,7 @@ class succesfulTransactionsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class cancelledTransactions(serializers.ModelSerializer):
+class cancelledTransactionsSerializer(serializers.ModelSerializer):
     class Meta:
         model =cancelledTransactions
         field = '__all__'

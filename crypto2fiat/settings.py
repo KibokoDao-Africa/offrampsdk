@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import os
+import os,dj_database_url
 from django.conf import settings
 from decouple import config
 
@@ -91,15 +91,8 @@ WSGI_APPLICATION = 'crypto2fiat.wsgi.application'
 # sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': '${{Postgres.PGDATABASE}}',
-        'USER': '${{Postgres.PGUSER}}',
-        'PASSWORD': '${{Postgres.PGPASSWORD}}',
-        'HOST': '${{Postgres.PGHOST}}',
-        'PORT': '${{Postgres.PGPORT}}',
-       
-    }
+    "default": dj_database_url.config(default=DATABASE_URL, conn_max_age = 1800),    
+    
 }
 
 REST_FRAMEWORK = {
@@ -163,6 +156,7 @@ PGUSER = config('PGUSER')
 PGPASSWORD = config('PGPASSWORD')
 PGHOST = config('PGHOST')
 PGPORT = config('PGPORT')
+DATABASE_URL = config('DATABASE_URL')
 
 
 SAFARICOM_AUTH_ENDPOINT=config('SAFARICOM_AUTH_ENDPOINT')
