@@ -93,11 +93,11 @@ WSGI_APPLICATION = 'crypto2fiat.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'd*Fg-B1b6FgbebC*F5E3a262Ca63Bec1',
-        'HOST': 'viaduct.proxy.rlwy.net',
-        'PORT': '57441',
+        'NAME': settings.PGDATABASE,
+        'USER': settings.PGUSER,
+        'PASSWORD': settings.PGPASSWORD,
+        'HOST': settings.PGHOST,
+        'PORT': settings.PGPORT,
        
     }
 }
