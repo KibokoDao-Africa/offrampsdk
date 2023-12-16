@@ -192,6 +192,7 @@ class CallBackUrl(APIView):
         phone = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["PhoneNumber"]
         logger = logging.getLogger('django.server')
         logger.info(response_code)
+        print(response_code)
 
         if response_code==0:
             successSerializer = succesfulTransactionsSerializer(data=data)
