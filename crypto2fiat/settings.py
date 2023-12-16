@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+from django.conf import settings
 from decouple import config
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,6 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-_7t3^f#n%tvk@+-s99wrcumpa-a9p32)9r_whrgvu3^^_pp1u5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+DATABASE_URL = "postgresql://postgres:d*Fg-B1b6FgbebC*F5E3a262Ca63Bec1@viaduct.proxy.rlwy.net:57441/railway"
 
 
 ALLOWED_HOSTS = ["gm0ojpbh6f.execute-api.eu-west-1.amazonaws.com","*"]
@@ -90,13 +93,17 @@ WSGI_APPLICATION = 'crypto2fiat.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
+        'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'Muasya254;',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'PASSWORD': 'd*Fg-B1b6FgbebC*F5E3a262Ca63Bec1',
+        'HOST': 'viaduct.proxy.rlwy.net',
+        'PORT': '57441',
        
     }
+}
+
+REST_FRAMEWORK = {
+    'DATETIME_FORMAT': '%d %B %Y %I:%M:%S %p',
 }
 
 
@@ -149,6 +156,13 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
 # SERVER_EMAIL = config('SERVER_EMAIL')
 # EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
+# ******************Databases****************
+PGDATABASE = config('PGDATABASE')
+PGUSER = config('PGUSER')
+PGPASSWORD = config('PGPASSWORD')
+PGHOST = config('PGHOST')
+PGPORT = config('PGPORT')
 
 
 SAFARICOM_AUTH_ENDPOINT=config('SAFARICOM_AUTH_ENDPOINT')

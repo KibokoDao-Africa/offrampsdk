@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from utils.api_auth import get_access_token
 from django.conf import settings
-from .serializers import MobileSerializer
+from .serializers import MobileSerializer, succesfulTransactionsSerializer, cancelledTransactions
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
@@ -182,9 +182,25 @@ class CallBackUrl(APIView):
         print(request.data)
         data = request.data
         json_response = json.dumps(data)
+        response_code = json_response["Body"]["stkCallback"]["ResultCode"]
+        MerchantRequestID = json_response["Body"]["stkCallback"]["MerchantRequestID"]
+        CheckoutRequestID = json_response["Body"]["stkCallback" ]["CheckoutRequestID"]
+        ResultDesc =  json_response["Body"]["stkCallback" ]["ResultDesc"]
+        amount = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][0]["Amount"]
+        MpesaReceiptNumber = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["MpesaReceiptNumber"]
+        transactionDate = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["TransactionDate"]
+        phone = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["PhoneNumber"]
+        successSerializer = succesfulTransactionsSerializer(data=data)
+        if successSerializer.is_valid():
+            res ={"msg":"Serializer is valid"}
+            return Response(res)
+        else:
+            res ={"msg":successSerializer.errors}
+            return Response(res)
         logger = logging.getLogger('django.server')
         logger.info(json_response)
         return Response({"data":json_response}, status=status.HTTP_200_OK)
+    
     
 class TimeOutUrl(APIView):
     def post(self, request):
