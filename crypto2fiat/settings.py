@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'crypto2fiat.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': settings.PGDATABASE,
         'USER': settings.PGUSER,
         'PASSWORD': settings.PGPASSWORD,
