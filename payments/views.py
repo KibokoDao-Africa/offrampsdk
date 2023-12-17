@@ -159,10 +159,7 @@ class ConvertToCrypto(APIView):
         print(response.text)
         if response.status_code == 200:
             json_response = response.json()
-            logger = logging.getLogger('django.server')
-            logger.info( json_response['MerchantRequestID'])
-            print("merchant id")
-            print(json_response['MerchantRequestID'])
+           
             # Service.MerchantRequestID = json_response['MerchantRequestID']
             # Service.CheckoutRequestID = json_response['CheckoutRequestID']
             # Service.save()
@@ -190,12 +187,9 @@ class CallBackUrl(APIView):
         cancelledTransactions = cancelledTransactionsSerializer(data=json_response, many=True)
         if cancelledTransactions.is_valid(raise_exception=True):
             cancelledTransactions.save()
-        else:
-            # Return validation errors
-            return Response(cancelledTransactions.errors, status=status.HTTP_400_BAD_REQUEST)
         serializedData = cancelledTransactions.data
         print(serializedData)
-        logging.info(serializedData)
+        logger.info(serializedData)
         response_code = json_response["Body"]["stkCallback"]["ResultCode"]
         MerchantRequestID = json_response["Body"]["stkCallback"]["MerchantRequestID"]
         CheckoutRequestID = json_response["Body"]["stkCallback" ]["CheckoutRequestID"]
