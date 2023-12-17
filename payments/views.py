@@ -186,6 +186,9 @@ class CallBackUrl(APIView):
         cancelledTransactions = cancelledTransactionsSerializer(data=json_response, many=True)
         if cancelledTransactions.is_valid(raise_exception=True):
             cancelledTransactions.save()
+        else:
+            # Return validation errors
+            return Response(cancelledTransactions.errors, status=status.HTTP_400_BAD_REQUEST)
         serializedData = cancelledTransactions.data
         print(serializedData)
         logging.info(serializedData)
