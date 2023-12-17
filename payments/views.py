@@ -184,7 +184,7 @@ class CallBackUrl(APIView):
         logger = logging.getLogger('django.server')
         json_response = json.dumps(data)
         cancelledTransactions = cancelledTransactionsSerializer(data=json_response, many=True)
-        if cancelledTransactions.is_valid():
+        if cancelledTransactions.is_valid(raise_exception=True):
             cancelledTransactions.save()
         serializedData = cancelledTransactions.data
         print(serializedData)
