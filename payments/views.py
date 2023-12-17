@@ -185,19 +185,19 @@ class CallBackUrl(APIView):
         logger = logging.getLogger('django.server')
         json_response = json.dumps(data)
         logger.info(json_response)
-        response_code = json_response["Body"]["stkCallback"]["ResultCode"]
-        logger.info("Result code"+json_response["ResultCode"])
-        MerchantRequestID = json_response["Body"]["stkCallback"]["MerchantRequestID"]
-        CheckoutRequestID = json_response["Body"]["stkCallback" ]["CheckoutRequestID"]
-        ResultDesc =  json_response["Body"]["stkCallback" ]["ResultDesc"]
-        amount = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][0]["Amount"]
-        MpesaReceiptNumber = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["MpesaReceiptNumber"]
-        transactionDate = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["TransactionDate"]
-        phone = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["PhoneNumber"]
+        # response_code = json_response["Body"]["stkCallback"]["ResultCode"]
+        # logger.info("Result code"+json_response["ResultCode"])
+        # MerchantRequestID = json_response["Body"]["stkCallback"]["MerchantRequestID"]
+        # CheckoutRequestID = json_response["Body"]["stkCallback" ]["CheckoutRequestID"]
+        # ResultDesc =  json_response["Body"]["stkCallback" ]["ResultDesc"]
+        # amount = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][0]["Amount"]
+        # MpesaReceiptNumber = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["MpesaReceiptNumber"]
+        # transactionDate = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["TransactionDate"]
+        # phone = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["PhoneNumber"]
 
 
-        logger.info(response_code)
-        print(response_code)
+        # logger.info(response_code)
+        # print(response_code)
         return Response(json_response)
 
         # if response_code==0:
