@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-_7t3^f#n%tvk@+-s99wrcumpa-a9p32)9r_whrgvu3^^_pp1u5'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DATABASE_URL = "postgresql://postgres:d*Fg-B1b6FgbebC*F5E3a262Ca63Bec1@viaduct.proxy.rlwy.net:57441/railway"
+
 
 
 ALLOWED_HOSTS = ["gm0ojpbh6f.execute-api.eu-west-1.amazonaws.com","*"]
