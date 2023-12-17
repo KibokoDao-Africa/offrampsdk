@@ -94,9 +94,6 @@ DATABASES = {
     
 }
 
-REST_FRAMEWORK = {
-    'DATETIME_FORMAT': '%d %B %Y %I:%M:%S %p',
-}
 
 
 # Password validation
