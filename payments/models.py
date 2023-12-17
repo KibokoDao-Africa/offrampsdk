@@ -19,3 +19,14 @@ class cancelledTransactions(models.Model):
     CheckoutRequestID = models.CharField(max_length=255,)
     ResultCode = models.CharField(max_length=255)
     
+class CallbackData(models.Model):
+    merchant_request_id = models.CharField(max_length=255)
+    checkout_request_id = models.CharField(max_length=255)
+    result_code = models.IntegerField()
+    result_desc = models.CharField(max_length=255)
+    amount = models.FloatField(null=True)
+    mpesa_receipt_number = models.CharField(max_length=255, null=True)
+    balance = models.FloatField(null=True)
+    transaction_date = models.DateTimeField(null=True)
+    phone_number = models.CharField(max_length=15, null=True)
+
