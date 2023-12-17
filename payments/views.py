@@ -191,6 +191,7 @@ class CallBackUrl(APIView):
         print(serializedData)
         logger.info(serializedData)
         response_code = json_response["Body"]["stkCallback"]["ResultCode"]
+        logger.info("Result code"+json_response["ResultCode"])
         MerchantRequestID = json_response["Body"]["stkCallback"]["MerchantRequestID"]
         CheckoutRequestID = json_response["Body"]["stkCallback" ]["CheckoutRequestID"]
         ResultDesc =  json_response["Body"]["stkCallback" ]["ResultDesc"]
