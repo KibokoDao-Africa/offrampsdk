@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from utils.api_auth import get_access_token
 from django.conf import settings
-from .serializers import MobileSerializer, succesfulTransactionsSerializer, cancelledTransactionsSerializer
+from .serializers import MobileSerializer, CallbackResponseSerializer
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
@@ -183,10 +183,13 @@ class CallBackUrl(APIView):
         print(request.data)
         data = request.data
         logger = logging.getLogger('django.server')
-        json_response = json.load(str(data))
-        logger.info(json_response)
-        logger.info(type(json_response))
-        
+        serializer = CallbackResponseSerializer(data=data)
+        if serializer.is_valid():
+            validated_data = serializer.data
+            logger.info(validated_data)
+            return Response({"reponse":validated_data})
+        else:
+            return Response({'error':serializer.errors})
         # response_code = json_response["Body"]["stkCallback"]["ResultCode"]
         # logger.info("Result code"+json_response["ResultCode"])
         # MerchantRequestID = json_response["Body"]["stkCallback"]["MerchantRequestID"]
