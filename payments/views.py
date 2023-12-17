@@ -159,6 +159,10 @@ class ConvertToCrypto(APIView):
         print(response.text)
         if response.status_code == 200:
             json_response = response.json()
+            logger = logging.getLogger('django.server')
+            logger.info( json_response['MerchantRequestID'])
+            print("merchant id")
+            print(json_response['MerchantRequestID'])
             # Service.MerchantRequestID = json_response['MerchantRequestID']
             # Service.CheckoutRequestID = json_response['CheckoutRequestID']
             # Service.save()
