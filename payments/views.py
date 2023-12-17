@@ -186,6 +186,7 @@ class CallBackUrl(APIView):
         serializer = CallbackResponseSerializer(data=data)
         if serializer.is_valid():
             validated_data = serializer.data
+            serializer.save()
             logger.info(validated_data)
             return Response({"reponse":validated_data})
         else:
