@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-_7t3^f#n%tvk@+-s99wrcumpa-a9p32)9r_whrgvu3^^_pp1u5
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-
+DATABASE_URL = config('DATABASE_URL')
 
 ALLOWED_HOSTS = ["gm0ojpbh6f.execute-api.eu-west-1.amazonaws.com","*"]
 
@@ -156,7 +156,7 @@ PGUSER = config('PGUSER')
 PGPASSWORD = config('PGPASSWORD')
 PGHOST = config('PGHOST')
 PGPORT = config('PGPORT')
-DATABASE_URL = config('DATABASE_URL')
+
 
 
 SAFARICOM_AUTH_ENDPOINT=config('SAFARICOM_AUTH_ENDPOINT')
