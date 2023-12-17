@@ -184,7 +184,10 @@ class CallBackUrl(APIView):
         data = request.data
         logger = logging.getLogger('django.server')
         json_response = json.dumps(data)
-        logger.info(str(json_response["Body"]["stkCallback"]["ResultCode"]))
+        logger.info(json_response)
+        logger.info(type(json_response))
+        logger.info(json_response.keys())
+        
         # response_code = json_response["Body"]["stkCallback"]["ResultCode"]
         # logger.info("Result code"+json_response["ResultCode"])
         # MerchantRequestID = json_response["Body"]["stkCallback"]["MerchantRequestID"]
