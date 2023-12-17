@@ -14,7 +14,7 @@ class succesfulTransactionsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class cancelledTransactionsSerializer(serializers.ModelSerializer):
-    class Meta:
-        model =cancelledTransactions
-        field = '__all__'
+class cancelledTransactionsSerializer(serializers.Serializer):
+    MerchantRequestID = serializers.CharField(max_length=255)
+    CheckoutRequestID = serializers.CharField(max_length=255)
+    ResultDesc = serializers.CharField(max_length=255)
