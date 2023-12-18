@@ -182,12 +182,9 @@ class CallBackUrl(APIView):
         print('Call back started')
         print(request.data)
         data = request.data
-        logger = logging.getLogger('django.server')
-        serializer = CallbackResponseSerializer(data=data)
-        validated_data = serializer.validated_data
-        serializer.save()
-        logger.info(validated_data.data)
-        return Response({"reponse":validated_data})
+        # logger = logging.getLogger('django.server')
+    
+        return Response({"reponse":data})
         # if serializer.is_valid():
            
         # else:
