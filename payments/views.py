@@ -155,6 +155,7 @@ class ConvertToCrypto(APIView):
                 }
         print(endpoint)
         logging.info(endpoint)
+        print("settings.SAFARICOM_CALLBACK_URL")
         response = requests.post(endpoint, json=payload, headers=headers)
         print(response.text)
         if response.status_code == 200:
@@ -182,14 +183,15 @@ class CallBackUrl(APIView):
         print('Call back started')
         print(request.data)
         data = request.data
-        json_response = json.dumps(data)
-        # logger = logging.getLogger('django.server')
-    
-        return Response(json_response)
-        # if serializer.is_valid():
-           
-        # else:
-        #     return Response({'error':serializer.errors})
+        logger = logging.getLogger('django.server')
+        serializer = CallbackResponseSerializer(data=data)
+        if serializer.is_valid():
+            validated_data = serializer.validated_data
+            serializer.save()
+            logger.info(validated_data.data)
+            return Response({"reponse":validated_data})
+        else:
+            return Response({'error':serializer.errors})
         # response_code = json_response["Body"]["stkCallback"]["ResultCode"]
         # logger.info("Result code"+json_response["ResultCode"])
         # MerchantRequestID = json_response["Body"]["stkCallback"]["MerchantRequestID"]
@@ -203,8 +205,7 @@ class CallBackUrl(APIView):
 
         # logger.info(response_code)
         # print(response_code)
-
-
+      
         # if response_code==0:
         #     successSerializer = succesfulTransactionsSerializer(data=data)
         #     if successSerializer.is_valid():
