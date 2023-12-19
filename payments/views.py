@@ -193,10 +193,10 @@ class CallBackUrl(APIView):
             succesfulTransactions.MerchantRequestID = data["Body"]["stkCallback"]["MerchantRequestID"]
             succesfulTransactions.CheckoutRequestID = data["Body"]["stkCallback" ]["CheckoutRequestID"]
             succesfulTransactions.ResultDesc = data["Body"]["stkCallback" ]["ResultDesc"]
-            succesfulTransactions.Amount = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][0]["Amount"]
-            succesfulTransactions.MpesaReceiptNumber = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["MpesaReceiptNumber"]
-            succesfulTransactions.TransactionDate = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["TransactionDate"]
-            succesfulTransactions.PhoneNumber = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["PhoneNumber"]
+            succesfulTransactions.Amount = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][0]["Value"]
+            succesfulTransactions.MpesaReceiptNumber = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"]
+            succesfulTransactions.TransactionDate = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][3]["Value"]
+            succesfulTransactions.PhoneNumber = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][4]["Value"]
             succesfulTransactions.save()
             return Response({"msg": "Successfully saved transaction"})
         else:
