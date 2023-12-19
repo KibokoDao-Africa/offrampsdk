@@ -190,6 +190,7 @@ class CallBackUrl(APIView):
         resultCode = data['Body']['stkCallback']['ResultCode']
         logger.info(data)
         if resultCode == 0:
+            succesfulTransactions = succesfulTransactions()
             succesfulTransactions.MerchantRequestID = data["Body"]["stkCallback"]["MerchantRequestID"]
             succesfulTransactions.CheckoutRequestID = data["Body"]["stkCallback" ]["CheckoutRequestID"]
             succesfulTransactions.ResultDesc = data["Body"]["stkCallback" ]["ResultDesc"]
@@ -200,6 +201,7 @@ class CallBackUrl(APIView):
             succesfulTransactions.save()
             return Response({"msg": "Successfully saved transaction"})
         else:
+            cancelledTransactions = cancelledTransactions()
             cancelledTransactions.MerchantRequestID = data["Body"]["stkCallback"]["MerchantRequestID"]
             cancelledTransactions.CheckoutRequestID = data["Body"]["stkCallback" ]["CheckoutRequestID"]
             cancelledTransactions.ResultCode = data["Body"]["stkCallback"]["ResultCode"]
