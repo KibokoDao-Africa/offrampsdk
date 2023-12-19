@@ -185,7 +185,6 @@ class CallBackUrl(APIView):
         data = request.data
         logger = logging.getLogger('django.server')
         json_response = json.dumps(data)
-        callback = json_response["Body"]["stkCallback"]
         logger.info(data.type())
         
 
