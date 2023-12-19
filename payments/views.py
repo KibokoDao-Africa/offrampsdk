@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from utils.api_auth import get_access_token
 from django.conf import settings
 from .serializers import MobileSerializer, CallbackResponseSerializer
-from .models import succesfulTransactions, cancelledTransactions
+from .models import SuccesfulTransactions, CancelledTransactions
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
@@ -190,7 +190,7 @@ class CallBackUrl(APIView):
         resultCode = data['Body']['stkCallback']['ResultCode']
         logger.info(data)
         if resultCode == 0:
-            succesfulTransactions = succesfulTransactions()
+            succesfulTransactions = SuccesfulTransactions()
             succesfulTransactions.MerchantRequestID = data["Body"]["stkCallback"]["MerchantRequestID"]
             succesfulTransactions.CheckoutRequestID = data["Body"]["stkCallback" ]["CheckoutRequestID"]
             succesfulTransactions.ResultDesc = data["Body"]["stkCallback" ]["ResultDesc"]
@@ -201,7 +201,7 @@ class CallBackUrl(APIView):
             succesfulTransactions.save()
             return Response({"msg": "Successfully saved transaction"})
         else:
-            cancelledTransactions = cancelledTransactions()
+            cancelledTransactions = CancelledTransactions()
             cancelledTransactions.MerchantRequestID = data["Body"]["stkCallback"]["MerchantRequestID"]
             cancelledTransactions.CheckoutRequestID = data["Body"]["stkCallback" ]["CheckoutRequestID"]
             cancelledTransactions.ResultCode = data["Body"]["stkCallback"]["ResultCode"]

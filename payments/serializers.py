@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import mobile,CallbackData,succesfulTransactions,cancelledTransactions
+from .models import mobile,CallbackData,SuccesfulTransactions,CancelledTransactions
 
 
 class MobileSerializer(serializers.ModelSerializer):
@@ -10,13 +10,13 @@ class MobileSerializer(serializers.ModelSerializer):
 
 class succesfulTransactionsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = succesfulTransactions
+        model = SuccesfulTransactions
         fields = '__all__'
 
 
 class cancelledTransactionsSerializer(serializers.ModelSerializer):
     class Meta:
-        model = cancelledTransactions
+        model = CancelledTransactions
         fields = '__all__'
 
 

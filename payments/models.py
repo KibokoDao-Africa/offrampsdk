@@ -5,7 +5,7 @@ class mobile(models.Model):
     amount = models.DecimalField(decimal_places=2,max_digits=11,default=1)
     mobile_number = models.CharField(max_length=12)
 
-class succesfulTransactions(models.Model):
+class SuccesfulTransactions(models.Model):
     MerchantRequestID = models.CharField(max_length=255,)
     CheckoutRequestID = models.CharField(max_length=255,)
     ResultDesc = models.CharField(max_length=255)
@@ -14,7 +14,7 @@ class succesfulTransactions(models.Model):
     TransactionDate  = models.DateTimeField(auto_now_add=True)
     PhoneNumber = models.CharField(max_length=30,)
 
-class cancelledTransactions(models.Model):
+class CancelledTransactions(models.Model):
     MerchantRequestID = models.CharField(max_length=255,)
     CheckoutRequestID = models.CharField(max_length=255,)
     ResultCode = models.CharField(max_length=255)
