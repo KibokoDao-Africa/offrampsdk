@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from utils.api_auth import get_access_token
 from django.conf import settings
 from .serializers import MobileSerializer, CallbackResponseSerializer
+from .models import succesfulTransactions, cancelledTransactions
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
@@ -188,8 +189,21 @@ class CallBackUrl(APIView):
         logger.info(data['Body']['stkCallback'])
         resultCode = data['Body']['stkCallback']['ResultCode']
         logger.info(resultCode)
+        if resultCode == 0:
+            succesfulTransactions.MerchantRequestID = data["Body"]["stkCallback"]["MerchantRequestID"]
+            succesfulTransactions.CheckoutRequestID = data["Body"]["stkCallback" ]["CheckoutRequestID"]
+            succesfulTransactions.ResultDesc = data["Body"]["stkCallback" ]["ResultDesc"]
+            succesfulTransactions.Amount = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][0]["Amount"]
+            succesfulTransactions.MpesaReceiptNumber = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["MpesaReceiptNumber"]
+            succesfulTransactions.TransactionDate = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["TransactionDate"]
+            succesfulTransactions.PhoneNumber = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["PhoneNumber"]
+            succesfulTransactions.save()
+        else:
+            cancelledTransactions.MerchantRequestID = data["Body"]["stkCallback"]["MerchantRequestID"]
+            cancelledTransactions.CheckoutRequestID = data["Body"]["stkCallback" ]["CheckoutRequestID"]
+            cancelledTransactions.ResultCode = data["Body"]["stkCallback"]["ResultCode"]
+            cancelledTransactions.save()
 
-        
         return Response(json_response)
         # response_code = json_response["Body"]["stkCallback"]["ResultCode"]
         # logger.info("Result code"+json_response["ResultCode"])
