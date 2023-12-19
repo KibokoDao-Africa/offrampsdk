@@ -184,25 +184,12 @@ class CallBackUrl(APIView):
         print(request.data)
         data = request.data
         logger = logging.getLogger('django.server')
-        json_response = json.dumps(data)
-        cancelledTransactions = CallbackResponseSerializer(data=json_response, many=True)
-        if cancelledTransactions.is_valid(raise_exception=True):
-            cancelledTransactions.save()
-        serializedData = cancelledTransactions.data
-        print(serializedData)
-        logging.info(serializedData)
-        response_code = json_response["Body"]["stkCallback"]["ResultCode"]
-        MerchantRequestID = json_response["Body"]["stkCallback"]["MerchantRequestID"]
-        CheckoutRequestID = json_response["Body"]["stkCallback" ]["CheckoutRequestID"]
-        ResultDesc =  json_response["Body"]["stkCallback" ]["ResultDesc"]
-        amount = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][0]["Amount"]
-        MpesaReceiptNumber = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["MpesaReceiptNumber"]
-        transactionDate = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["TransactionDate"]
-        phone = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["PhoneNumber"]
+        json_response = json.loads(data)
+        callback = json_response["Body"]["stkCallback"]
+        logger.info(callback)
+        
 
-
-        logger.info(response_code)
-        print(response_code)
+        
         return Response(json_response)
         # response_code = json_response["Body"]["stkCallback"]["ResultCode"]
         # logger.info("Result code"+json_response["ResultCode"])
