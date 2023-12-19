@@ -188,7 +188,7 @@ class CallBackUrl(APIView):
         json_response = json.dumps(data)
         logger.info(data['Body']['stkCallback'])
         resultCode = data['Body']['stkCallback']['ResultCode']
-        logger.info(resultCode)
+        logger.info(data)
         if resultCode == 0:
             succesfulTransactions.MerchantRequestID = data["Body"]["stkCallback"]["MerchantRequestID"]
             succesfulTransactions.CheckoutRequestID = data["Body"]["stkCallback" ]["CheckoutRequestID"]
@@ -198,13 +198,15 @@ class CallBackUrl(APIView):
             succesfulTransactions.TransactionDate = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["TransactionDate"]
             succesfulTransactions.PhoneNumber = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["PhoneNumber"]
             succesfulTransactions.save()
+            return Response({"msg": "Successfully saved transaction"})
         else:
             cancelledTransactions.MerchantRequestID = data["Body"]["stkCallback"]["MerchantRequestID"]
             cancelledTransactions.CheckoutRequestID = data["Body"]["stkCallback" ]["CheckoutRequestID"]
             cancelledTransactions.ResultCode = data["Body"]["stkCallback"]["ResultCode"]
             cancelledTransactions.save()
+            return Response({"msg": "Transaction was cancelled"})
 
-        return Response(json_response)
+        
         # response_code = json_response["Body"]["stkCallback"]["ResultCode"]
         # logger.info("Result code"+json_response["ResultCode"])
         # MerchantRequestID = json_response["Body"]["stkCallback"]["MerchantRequestID"]
