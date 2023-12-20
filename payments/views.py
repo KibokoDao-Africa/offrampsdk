@@ -227,6 +227,7 @@ class ResultUrl(APIView):
             businessToCustomer.MpesaReceiptNumber = data["Result"]["ResultParameters"]["ResultParameter"][1]["Value"]
             businessToCustomer.PhoneNumber = data["Result"]["ResultParameters"]["ResultParameter"][2]["Value"]
             businessToCustomer.TransactionDate = data["Result"]["ResultParameters"]["ResultParameter"][3]["Value"]
+            logger.info("Successful transaction")
             businessToCustomer.save()
             return Response({"reponse":"Successful transaction"})
         else:
@@ -234,6 +235,7 @@ class ResultUrl(APIView):
             businessToCustomer.ResultCode = resultCode
             businessToCustomer.ResultDesc = data["Result"]["ResultDesc"]
             businessToCustomer.ConversationID = data["Result"]["ConversationID"]
+            logger.info("Failed transaction")
             businessToCustomer.save()
             return Response({"reponse":"Failed transaction"})
         
