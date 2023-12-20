@@ -13,7 +13,14 @@ class SuccesfulTransactions(models.Model):
     MpesaReceiptNumber = models.CharField(max_length=255)
     TransactionDate  = models.DateTimeField(auto_now_add=True)
     PhoneNumber = models.CharField(max_length=30,)
-
+class BusinessToCustomer(models.Model):
+    ResultCode = models.DecimalField(decimal_places=2,max_digits=9)
+    ResultDesc = models.CharField(max_length=255)
+    ConversationID = models.CharField(max_length=255)
+    Amount = models.DecimalField(decimal_places=2,max_digits=10, null=True)
+    MpesaReceiptNumber = models.CharField(max_length=255,null=True)
+    PhoneNumber = models.CharField(max_length=30, null=True)
+    TransactionDate  = models.DateTimeField(auto_now_add=True,null = True)
 class CancelledTransactions(models.Model):
     MerchantRequestID = models.CharField(max_length=255,)
     CheckoutRequestID = models.CharField(max_length=255,)

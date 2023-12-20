@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from utils.api_auth import get_access_token
 from django.conf import settings
 from .serializers import MobileSerializer, CallbackResponseSerializer
-from .models import SuccesfulTransactions, CancelledTransactions
+from .models import SuccesfulTransactions, CancelledTransactions, BusinessToCustomer
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
@@ -218,7 +218,24 @@ class ResultUrl(APIView):
         resultCode = data["Result"]["ResultCode"]
         logger.info(data)
         logger.info(resultCode)
-        return Response({"reponse":data})
+        if resultCode == 0:
+            businessToCustomer = BusinessToCustomer()
+            businessToCustomer.ResultCode = resultCode
+            businessToCustomer.ResultDesc = data["Result"]["ResultDesc"]
+            businessToCustomer.ConversationID = data["Result"]["ConversationID"]
+            businessToCustomer.Amount = data["Result"]["ResultParameters"]["ResultParameter"][0]["Value"]
+            businessToCustomer.MpesaReceiptNumber = data["Result"]["ResultParameters"]["ResultParameter"][1]["Value"]
+            businessToCustomer.PhoneNumber = data["Result"]["ResultParameters"]["ResultParameter"][2]["Value"]
+            businessToCustomer.TransactionDate = data["Result"]["ResultParameters"]["ResultParameter"][3]["Value"]
+            businessToCustomer.save()
+            return Response({"reponse":businessToCustomer.data})
+        else:
+            businessToCustomer = BusinessToCustomer()
+            businessToCustomer.ResultCode = resultCode
+            businessToCustomer.ResultDesc = data["Result"]["ResultDesc"]
+            businessToCustomer.ConversationID = data["Result"]["ConversationID"]
+            businessToCustomer.save()
+            return Response({"reponse":businessToCustomer.data})
         
       
     
