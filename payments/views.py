@@ -60,7 +60,7 @@ class ConvertToFiat(APIView):
         payload = {    
             "OriginatorConversationID": str(''.join(random.choices(string.ascii_letters, k=64))),
             "InitiatorName": settings.INITIATOR_NAME,
-            "SecurityCredential":str(openssl_encrypted_message),
+            "SecurityCredential":settings.B2C_SECURITY_CREDENTIAL,
             "CommandID":settings.COMMANDID,
             "Amount":amount,
             "PartyA":"600980",
@@ -209,41 +209,7 @@ class CallBackUrl(APIView):
             return Response({"msg": "Transaction was cancelled"})
 
         
-        # response_code = json_response["Body"]["stkCallback"]["ResultCode"]
-        # logger.info("Result code"+json_response["ResultCode"])
-        # MerchantRequestID = json_response["Body"]["stkCallback"]["MerchantRequestID"]
-        # CheckoutRequestID = json_response["Body"]["stkCallback" ]["CheckoutRequestID"]
-        # ResultDesc =  json_response["Body"]["stkCallback" ]["ResultDesc"]
-        # amount = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][0]["Amount"]
-        # MpesaReceiptNumber = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["MpesaReceiptNumber"]
-        # transactionDate = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["TransactionDate"]
-        # phone = json_response["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["PhoneNumber"]
-
-
-        # logger.info(response_code)
-        # print(response_code)
       
-        # if response_code==0:
-        #     successSerializer = succesfulTransactionsSerializer(data=data)
-        #     if successSerializer.is_valid():
-        #         successSerializer.save()
-        #         res ={"msg":"Successfully recorded transaction"}
-        #         return Response(res)
-        #     else:
-        #         res ={"msg":successSerializer.errors()}
-        #         return Response(res)
-        # else:
-        #     cancelledTransactions = cancelledTransactionsSerializer(data=data)
-        #     if cancelledTransactions.is_valid():
-        #         cancelledTransactions.save()
-        #         res ={"msg":"transaction was cancelled by user"}
-        #         return Response(res)
-        #     else:
-        #         res ={"msg":cancelledTransactions.errors()}
-        #         return Response(res)
-     
-        # return Response({"data":json_response}, status=status.HTTP_200_OK)
-    
     
 class TimeOutUrl(APIView):
     def post(self, request):
