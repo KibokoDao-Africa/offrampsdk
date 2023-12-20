@@ -228,14 +228,14 @@ class ResultUrl(APIView):
             businessToCustomer.PhoneNumber = data["Result"]["ResultParameters"]["ResultParameter"][2]["Value"]
             businessToCustomer.TransactionDate = data["Result"]["ResultParameters"]["ResultParameter"][3]["Value"]
             businessToCustomer.save()
-            return Response({"reponse":businessToCustomer.data})
+            return Response({"reponse":"Successful transaction"})
         else:
             businessToCustomer = BusinessToCustomer()
             businessToCustomer.ResultCode = resultCode
             businessToCustomer.ResultDesc = data["Result"]["ResultDesc"]
             businessToCustomer.ConversationID = data["Result"]["ConversationID"]
             businessToCustomer.save()
-            return Response({"reponse":businessToCustomer.data})
+            return Response({"reponse":"Failed transaction"})
         
       
     
