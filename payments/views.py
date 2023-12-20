@@ -67,7 +67,7 @@ class ConvertToFiat(APIView):
             "PartyB":mobile_number,
             "Remarks":"here are my remarks",
             "QueueTimeOutURL":settings.SAFARICOM_TIMEOUT_URL,
-            "ResultURL":settings.SAFARICOM_CALLBACK_URL,
+            "ResultURL":settings.SAFARICOM_RESULTURL,
             "Occassion":"Christmas"
         }
         try:
@@ -207,7 +207,18 @@ class CallBackUrl(APIView):
             cancelledTransactions.ResultCode = data["Body"]["stkCallback"]["ResultCode"]
             cancelledTransactions.save()
             return Response({"msg": "Transaction was cancelled"})
-
+        
+class ResultUrl(APIView):
+    def post(self, request):
+        print("Result URL")
+        print(request.data)
+        data = request.data
+        logger = logging.getLogger('django.server')
+        logger.info(data["Result"])
+        resultCode = data["Result"]["ResultCode"]
+        logger.info(data)
+        logger.info(resultCode)
+        return Response({"reponse":data})
         
       
     
@@ -217,5 +228,5 @@ class TimeOutUrl(APIView):
         data = request.data
         json_response = json.dumps(data)
         logger = logging.getLogger('django.server')
-        logger.info(json_response)
+        logger.info(data)
         return Response({"data":json_response})
