@@ -185,7 +185,6 @@ class CallBackUrl(APIView):
         print(request.data)
         data = request.data
         logger = logging.getLogger('django.server')
-        json_response = json.dumps(data)
         logger.info(data['Body']['stkCallback'])
         resultCode = data['Body']['stkCallback']['ResultCode']
         logger.info(data)
@@ -199,15 +198,14 @@ class CallBackUrl(APIView):
             succesfulTransactions.TransactionDate = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][3]["Value"]
             succesfulTransactions.PhoneNumber = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][4]["Value"]
             succesfulTransactions.save()
-            logger.info("successfully saved the data")
-            
+            return Response({"msg": "Successfully saved transaction"})
         else:
             cancelledTransactions = CancelledTransactions()
             cancelledTransactions.MerchantRequestID = data["Body"]["stkCallback"]["MerchantRequestID"]
             cancelledTransactions.CheckoutRequestID = data["Body"]["stkCallback" ]["CheckoutRequestID"]
             cancelledTransactions.ResultCode = data["Body"]["stkCallback"]["ResultCode"]
             cancelledTransactions.save()
-            logger.info("failed to save transaction")
+            return Response({"msg": "Transaction was cancelled"})
            
         
 class ResultUrl(APIView):
