@@ -199,14 +199,16 @@ class CallBackUrl(APIView):
             succesfulTransactions.TransactionDate = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][3]["Value"]
             succesfulTransactions.PhoneNumber = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][4]["Value"]
             succesfulTransactions.save()
-            return Response({"msg": "Successfully saved transaction"})
+            logger.info("successfully saved the data")
+            
         else:
             cancelledTransactions = CancelledTransactions()
             cancelledTransactions.MerchantRequestID = data["Body"]["stkCallback"]["MerchantRequestID"]
             cancelledTransactions.CheckoutRequestID = data["Body"]["stkCallback" ]["CheckoutRequestID"]
             cancelledTransactions.ResultCode = data["Body"]["stkCallback"]["ResultCode"]
             cancelledTransactions.save()
-            return Response({"msg": "Transaction was cancelled"})
+            logger.info("failed to save transaction")
+           
         
 class ResultUrl(APIView):
     def post(self, request):
