@@ -355,20 +355,22 @@ class DonationsCallbackUrl(APIView):
         if resultCode == 0:
             donations = Donations()
             donations.ResultCode = resultCode
-            donations.ResultDesc = data["Result"]["ResultDesc"]
-            donations.ConversationID = data["Result"]["ConversationID"]
-            donations.Amount = data["Result"]["ResultParameters"]["ResultParameter"][0]["Value"]
-            donations.MpesaReceiptNumber = data["Result"]["ResultParameters"]["ResultParameter"][1]["Value"]
-            donations.PhoneNumber = data["Result"]["ResultParameters"]["ResultParameter"][2]["Value"]
-            donations.TransactionDate = data["Result"]["ResultParameters"]["ResultParameter"][3]["Value"]
+            donations.MerchantRequestID = data["Body"]["stkCallback"]["MerchantRequestID"]
+            donations.CheckoutRequestID = data["Body"]["stkCallback" ]["CheckoutRequestID"]
+            donations.ResultDesc = data["Body"]["stkCallback" ]["ResultDesc"]
+            donations.Amount = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][0]["Value"]
+            donations.MpesaReceiptNumber = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][1]["Value"]
+            donations.TransactionDate = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][3]["Value"]
+            donations.PhoneNumber = data["Body"]["stkCallback"]["CallbackMetadata"]["Item"][4]["Value"]
             logger.info("Successful transaction")
             donations.save()
             return Response({"reponse":"Successful transaction"})
         else:
             donations = Donations()
             donations.ResultCode = resultCode
-            donations.ResultDesc = data["Result"]["ResultDesc"]
-            donations.ConversationID = data["Result"]["ConversationID"]
+            donations.MerchantRequestID = data["Body"]["stkCallback"]["MerchantRequestID"]
+            donations.CheckoutRequestID = data["Body"]["stkCallback" ]["CheckoutRequestID"]
+            donations.ResultCode = data["Body"]["stkCallback"]["ResultCode"]
             logger.info("Failed transaction")
             donations.save()
             return Response({"reponse":"Failed transaction"})
