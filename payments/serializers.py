@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import mobile,CallbackData,SuccesfulTransactions,CancelledTransactions
+from .models import mobile,CallbackData,SuccesfulTransactions,CancelledTransactions,BusinessToCustomer
 
 
 class MobileSerializer(serializers.ModelSerializer):
@@ -18,8 +18,10 @@ class cancelledTransactionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = CancelledTransactions
         fields = '__all__'
-
-
+class BusinessToCustomerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BusinessToCustomer
+        fields = '__all__'
 class CallbackMetadataItemSerializer(serializers.Serializer):
     Name = serializers.CharField()
     Value = serializers.CharField()

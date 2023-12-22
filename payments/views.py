@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from utils.api_auth import get_access_token
 from django.conf import settings
-from .serializers import MobileSerializer, CallbackResponseSerializer
+from .serializers import MobileSerializer, BusinessToCustomerSerializer
 from .models import SuccesfulTransactions, CancelledTransactions, BusinessToCustomer
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
@@ -178,6 +178,13 @@ class ConvertToCrypto(APIView):
                 'status': False,
                 'message': json_response
             }, status=status.HTTP_400_BAD_REQUEST)
+        
+class ToFiatTransactions(APIView):
+    serializer_class = BusinessToCustomerSerializer
+    def get(self, request):
+        data = BusinessToCustomer.objects.all()
+        serializer = self.serializer_class(data, many=True)
+        return Response(serializer.data)
 
 class CallBackUrl(APIView):
     def post(self, request):
