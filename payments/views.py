@@ -342,10 +342,14 @@ class Donations(APIView):
             }, status=status.HTTP_400_BAD_REQUEST)
 
 class DonationsCallbackUrl(APIView):
+    serializer_class = MobileSerializer
     def post(self, request):
         print('Call back started')
         print(request.data)
         data = request.data
+        serializer = self.serializer_class(data=data)
+        if not serializer.is_valid():
+          return Response({"message":serializer.errors})
         logger = logging.getLogger('django.server')
         logger.info(data['Body']['stkCallback'])
         resultCode = data['Body']['stkCallback']['ResultCode']
