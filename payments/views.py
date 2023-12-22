@@ -354,7 +354,6 @@ class DonationsCallbackUrl(APIView):
         logger.info(data)
         if resultCode == 0:
             donations = Donations()
-            donations.ResultCode = resultCode
             donations.MerchantRequestID = data["Body"]["stkCallback"]["MerchantRequestID"]
             donations.CheckoutRequestID = data["Body"]["stkCallback" ]["CheckoutRequestID"]
             donations.ResultDesc = data["Body"]["stkCallback" ]["ResultDesc"]
@@ -367,7 +366,6 @@ class DonationsCallbackUrl(APIView):
             return Response({"reponse":"Successful transaction"})
         else:
             donations = Donations()
-            donations.ResultCode = resultCode
             donations.MerchantRequestID = data["Body"]["stkCallback"]["MerchantRequestID"]
             donations.CheckoutRequestID = data["Body"]["stkCallback" ]["CheckoutRequestID"]
             donations.ResultCode = data["Body"]["stkCallback"]["ResultCode"]
