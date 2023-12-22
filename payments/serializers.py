@@ -22,10 +22,12 @@ class BusinessToCustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = BusinessToCustomer
         fields = '__all__'
+        
 class StkPushSerializer(serializers.ModelSerializer):
     class Meta:
         model = SuccesfulTransactions
         fields = '__all__'
+
 class CallbackMetadataItemSerializer(serializers.Serializer):
     Name = serializers.CharField()
     Value = serializers.CharField()

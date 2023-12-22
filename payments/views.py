@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from utils.api_auth import get_access_token
 from django.conf import settings
 from .serializers import MobileSerializer, BusinessToCustomerSerializer, StkPushSerializer
-from .models import SuccesfulTransactions, CancelledTransactions, BusinessToCustomer
+from .models import SuccesfulTransactions, CancelledTransactions, BusinessToCustomer, Donations
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
@@ -263,3 +263,110 @@ class TimeOutUrl(APIView):
         logger = logging.getLogger('django.server')
         logger.info(data)
         return Response({"data":json_response})
+class Donations(APIView):
+    def post(self, request):
+        data = request.data
+        serializer = self.serializer_class(data=data)
+        if not serializer.is_valid():
+          return Response({"message":serializer.errors})
+        access_token = get_access_token()
+        endpoint = settings.SAFARICOM_STK_PUSH
+        Business_short_code = settings.BUSINESS_SHORT_CODE
+        logger = logging.getLogger('django.server')
+        logger.info(settings.SAFARICOM_STK_PUSH)
+        logger.info(access_token)
+        print("after logging")
+        print(endpoint)
+
+        timestamp = f"{datetime.datetime.now():%Y%m%d%H%M%S}"
+
+        
+
+        pass_key = settings.SAFARICOM_PASS_KEY
+
+        message = str(Business_short_code)+str(pass_key)+str(timestamp)
+        print("message",message)
+        message_bytes = message.encode('ascii')
+        base64_bytes = base64.b64encode(message_bytes)
+        password = base64_bytes.decode('ascii')
+
+        print(password)
+
+        print("pass key", pass_key)
+
+        
+        headers = {
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {access_token}'
+        }
+        amount = request.data.get('amount')
+        mobile_number = request.data.get('mobile_number')
+
+        print(headers)
+        payload = {    
+                    "BusinessShortCode": '174379',    
+                    "Password": password,    
+                    "Timestamp": timestamp,    
+                    "TransactionType": "CustomerPayBillOnline",    
+                    "Amount": amount,    
+                    "PartyA":mobile_number,    
+                    "PartyB":'174379',    
+                    "PhoneNumber":mobile_number,    
+                    "CallBackURL": settings.SAFARICOM_DONATIONS_CALLBACKURL,    
+                    "AccountReference":"Test",    
+                    "TransactionDesc":"Test"
+                }
+        print(endpoint)
+        logging.info(endpoint)
+        print("settings.SAFARICOM_CALLBACK_URL")
+        response = requests.post(endpoint, json=payload, headers=headers)
+        print(response.text)
+        if response.status_code == 200:
+            json_response = response.json()
+           
+            # Service.MerchantRequestID = json_response['MerchantRequestID']
+            # Service.CheckoutRequestID = json_response['CheckoutRequestID']
+            # Service.save()
+            return Response({
+                'status': True,
+                'message': json_response
+            }, status=status.HTTP_200_OK)
+        else:
+            json_response = response.json()
+            print(endpoint)
+            logging.info(endpoint)
+            print(response.text)
+            return Response({
+                'status': False,
+                'message': json_response
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+class DonationsCallbackUrl(APIView):
+    def post(self, request):
+        print('Call back started')
+        print(request.data)
+        data = request.data
+        logger = logging.getLogger('django.server')
+        logger.info(data['Body']['stkCallback'])
+        resultCode = data['Body']['stkCallback']['ResultCode']
+        logger.info(data)
+        if resultCode == 0:
+            donations = Donations()
+            donations.ResultCode = resultCode
+            donations.ResultDesc = data["Result"]["ResultDesc"]
+            donations.ConversationID = data["Result"]["ConversationID"]
+            donations.Amount = data["Result"]["ResultParameters"]["ResultParameter"][0]["Value"]
+            donations.MpesaReceiptNumber = data["Result"]["ResultParameters"]["ResultParameter"][1]["Value"]
+            donations.PhoneNumber = data["Result"]["ResultParameters"]["ResultParameter"][2]["Value"]
+            donations.TransactionDate = data["Result"]["ResultParameters"]["ResultParameter"][3]["Value"]
+            logger.info("Successful transaction")
+            donations.save()
+            return Response({"reponse":"Successful transaction"})
+        else:
+            donations = Donations()
+            donations.ResultCode = resultCode
+            donations.ResultDesc = data["Result"]["ResultDesc"]
+            donations.ConversationID = data["Result"]["ConversationID"]
+            logger.info("Failed transaction")
+            donations.save()
+            return Response({"reponse":"Failed transaction"})
