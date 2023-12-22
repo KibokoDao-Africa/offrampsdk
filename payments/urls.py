@@ -7,5 +7,6 @@ urlpatterns = [
      path('callbackurl/',views.CallBackUrl.as_view(),name='callbackurl'),
      path("results/",views.ResultUrl.as_view(),name='results'),
      path("tofiattransactions/",views.ToFiatTransactions.as_view(),name='tofiattransactions'),
+     path("tocryptotransactions/", views.ToCryptoTransactions.as_view(),name='tpcryptotransactions'),
      path('timeouturl/',views.TimeOutUrl.as_view(),name='timeouturl')
 ]
