@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from utils.api_auth import get_access_token
 from django.conf import settings
-from .serializers import MobileSerializer, BusinessToCustomerSerializer, StkPushSerializer
+from .serializers import MobileSerializer, BusinessToCustomerSerializer, StkPushSerializer,DonateSerializer
 from .models import SuccesfulTransactions, CancelledTransactions, BusinessToCustomer, Donations
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
@@ -342,7 +342,7 @@ class Donations(APIView):
             }, status=status.HTTP_400_BAD_REQUEST)
 
 class DonationsCallbackUrl(APIView):
-    serializer_class = MobileSerializer
+    serializer_class = DonateSerializer
     def post(self, request):
         print('Call back started')
         print(request.data)

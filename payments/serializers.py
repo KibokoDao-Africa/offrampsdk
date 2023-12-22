@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import mobile,CallbackData,SuccesfulTransactions,CancelledTransactions,BusinessToCustomer
+from .models import mobile,CallbackData,SuccesfulTransactions,CancelledTransactions,BusinessToCustomer,Donate
 
 
 class MobileSerializer(serializers.ModelSerializer):
@@ -7,6 +7,10 @@ class MobileSerializer(serializers.ModelSerializer):
         model = mobile
         fields = '__all__'
 
+class DonateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Donate
+        fields = '__all__'
 
 class succesfulTransactionsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -22,7 +26,7 @@ class BusinessToCustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = BusinessToCustomer
         fields = '__all__'
-        
+
 class StkPushSerializer(serializers.ModelSerializer):
     class Meta:
         model = SuccesfulTransactions
