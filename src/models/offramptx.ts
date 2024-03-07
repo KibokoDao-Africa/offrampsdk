@@ -1,7 +1,7 @@
 import { DataTypes, Model } from 'sequelize';
 import db from '../util/database';
 
-interface OfframpAttributes {
+interface OfframpTxAttributes {
     id: number;
     token: string;
     noOfTokens: number;
@@ -12,7 +12,7 @@ interface OfframpAttributes {
     status: boolean;
 }
 
-class Offramp extends Model<OfframpAttributes> implements OfframpAttributes {
+class OfframpTx extends Model<OfframpTxAttributes> implements OfframpTxAttributes {
     public id!: number;
     public token!: string;
     public noOfTokens!: number;
@@ -23,7 +23,7 @@ class Offramp extends Model<OfframpAttributes> implements OfframpAttributes {
     public status!: boolean;
 }
 
-Offramp.init({
+OfframpTx.init({
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -39,7 +39,7 @@ Offramp.init({
     status: DataTypes.BOOLEAN
 }, {
     sequelize: db,
-    modelName: 'Offramp'
+    modelName: 'OfframpTx'
 });
 
-export default Offramp;
+export default OfframpTx;
