@@ -1,5 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import db from '../util/database';
+import db from '../../util/database';
 
 interface OfframpTxAttributes {
     id: number;
