@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as controller from '../controllers/onramp';
+import * as controller from '../controllers/onrampController';
 
 const router = Router();
 
