@@ -1,5 +1,6 @@
-import { DataTypes, Model } from 'sequelize';
-import db from '../../util/database';
+import { DataTypes, Model,Sequelize } from 'sequelize';
+
+import db from '../../../util/database';
 
 interface OnRampTxAttributes {
     id: number;
